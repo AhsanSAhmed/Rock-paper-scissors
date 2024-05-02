@@ -10,29 +10,28 @@ function getComputerChoice()
     let compChoice=getRandomInt(1,3);
     return compChoice;
 }
-function getHumanChoice()
-{
-    let humanChoice=prompt("Enter rock, paper or scissors");
-    humanChoice=humanChoice.toLowerCase();
-    if(humanChoice=="rock")
-    {
-        return(1);
-    }
-    else if(humanChoice=="paper")
-    {
-        return(2);
-    }
-    else if(humanChoice=="scissors")
-    {
-        return(3);
-    }
-}
 
-function playRound()
+const btnRock=document.querySelector("#rock");
+const btnPaper=document.querySelector("#paper");
+const btnScissors=document.querySelector("#scissors");
+
+btnRock.addEventListener("click", ()=>playRound(1));
+btnPaper.addEventListener("click", ()=>playRound(2));
+btnScissors.addEventListener("click", ()=>playRound(3));
+
+const resultH=document.querySelector("#humanscore");
+const resultC=document.querySelector("#computerscore");
+
+const humanText = document.createElement('span');
+const compText = document.createElement('span');
+
+const result=document.querySelector("#endResult");
+const resultText=document.createElement('h1');
+
+function playRound(hChoice)
 {
-    let hChoice=getHumanChoice();
+    let res="";
     let cChoice=getComputerChoice();
-
     if(cChoice==hChoice)
     {
         humanScore++;
@@ -47,30 +46,41 @@ function playRound()
         humanScore++;
     }
 
-    console.log(humanScore);
-    console.log(compScore);
+    humanText.textContent = humanScore;
+    compText.textContent = compScore;
 
-    if(humanScore>compScore)
-        console.log("Human wins");
-    else if(compScore>humanScore)
-        console.log("Computer wins");
-    else
-        console.log("Tie");
-}
+    resultH.innerHTML = ''; 
+    resultC.innerHTML = '';
 
-function playGame()
-{
-    for(let i=0;i<5;i++)
+    resultH.appendChild(humanText);
+    resultC.appendChild(compText);
+    
+    result.innerHTML='';
+
+    if(humanScore==5 && compScore==5)
     {
-        playRound();
+        res="Tie";
+        resultText.textContent = res;
+        result.appendChild(resultText);
     }
-
-    if(humanScore>compScore)
-        console.log("TOTAL HUMAN VICTORY");
-    else if(compScore>humanScore)
-        console.log("TOTAL COMPUTER VICTORY");
-    else
-        console.log("TOTAL TIE");
+    else if(compScore==5)
+    {
+        res="Computer Victory";
+        resultText.textContent = res;
+        result.appendChild(resultText);
+    }
+    else if(humanScore==5)
+    {
+        res="Human victory";
+        resultText.textContent = res;
+        result.appendChild(resultText);
+    }
+    if (humanScore === 5 || compScore === 5) 
+    {
+        humanScore=0;
+        compScore=0;
+    }   
 }
 
-playGame();
+
+
